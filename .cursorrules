@@ -1,0 +1,231 @@
+# 🚀 RaiseRocket - Professional Salary Negotiation Platform
+## TurboTax-Inspired Design System & Development Rules
+
+### **1. Project Context Rules**
+```markdown
+## 🎯 Project Context
+- **Project Type**: Professional salary negotiation platform with expert guidance
+- **Design Theme**: TurboTax-inspired professional, trustworthy, and conversion-focused design
+- **Architecture**: Next.js 15 with App Router, Chakra UI v2, Framer Motion, TypeScript
+- **Target Audience**: Mid-to-senior level professionals seeking salary negotiation guidance
+- **Business Model**: Expert consultation services with assessment tools and educational content
+```
+
+### **2. Design System Rules**
+```markdown
+## 🎨 Design System (TurboTax-Inspired)
+- **Brand Colors**: 
+  - Primary: #236CFF (TurboTax Blue) - for CTAs, links, and primary actions
+  - Secondary: #00A651 (Success Green) - for positive outcomes, success states
+  - Accent: #FF4444 (Alert Red) - for warnings, errors, urgent actions
+  - Neutral Palette: #F8F9FA to #000000 (professional grayscale)
+- **Theme**: Professional, trustworthy, clean, and conversion-optimized
+- **Typography**: Inter font family (matching TurboTax's Avenir Next approach)
+- **Gradients**: Avoid gradients - use solid colors for professional appearance
+- **Spacing**: 8px base unit system (0.5, 1, 2, 3, 4, 6, 8, 12, 16, 20, 24, 32)
+- **Border Radius**: Consistent 8px for buttons, inputs, cards (12px for larger containers)
+```
+
+### **3. Architecture Guidelines**
+```markdown
+## 🏗️ Architecture Guidelines
+- Use Next.js 15 with App Router for optimal performance and SEO
+- Implement Server Components where possible, Client Components only when needed
+- Use Chakra UI v2 with custom professional theme extending TurboTax patterns
+- Follow component composition patterns with forwardRef for accessibility
+- Implement Framer Motion for subtle, professional animations (no flashy effects)
+- Use React Hook Form with validation for all form interactions
+- Performance target: <3s initial load, <100ms interaction response
+```
+
+### **4. Component Development Rules**
+```markdown
+## 📱 Component Development
+- **Mobile-First**: Design for mobile (320px+), enhance for desktop (1024px+)
+- **Component Library**: Chakra UI v2 with custom professional variants
+- **Responsive**: Use Chakra's responsive props: { base: "value", md: "value", lg: "value" }
+- **Accessibility**: WCAG 2.1 AA compliance, proper ARIA labels, keyboard navigation
+- **Animations**: Framer Motion for subtle hover states, page transitions, and micro-interactions
+- **Professional Standards**: All components must feel trustworthy and enterprise-ready
+```
+
+### **5. Feature Development Rules**
+```markdown
+## 🚀 Feature Development
+- **Hero Section**: Clear value proposition with trust indicators and primary CTA
+- **Forms**: Multi-step forms with progress indicators, inline validation, and clear error states
+- **Navigation**: Clean, minimal navigation with clear hierarchy and professional styling
+- **Content Sections**: Use cards with subtle shadows, proper spacing, and clear typography
+- **User Flows**: Assessment → Strategy → Implementation → Results (mirroring TurboTax's guided approach)
+- **Trust Elements**: Include success rates, testimonials, guarantees, and expert credentials
+- **CTAs**: Use TurboTax-style button hierarchy (primary for main actions, secondary for alternatives)
+```
+
+### **6. Code Quality Rules**
+```markdown
+## 🔧 Code Quality
+- **Language**: TypeScript with strict mode, proper interfaces for all props
+- **Error Handling**: Graceful error boundaries with user-friendly messages
+- **Performance**: Lazy load components, optimize images, use React.memo for expensive renders
+- **Testing**: Unit tests for utilities, integration tests for user flows
+- **Documentation**: JSDoc comments for complex functions, README for setup
+- **Linting**: ESLint with Next.js config, Prettier for consistent formatting
+```
+
+### **7. Browser Support Rules**
+```markdown
+## 🌐 Browser Support
+- **Modern Browsers**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
+- **Mobile**: iOS Safari 14+, Chrome Mobile 90+
+- **Progressive Enhancement**: Core functionality works without JavaScript
+- **Performance**: <3s load time on 3G, <1s on WiFi
+- **Accessibility**: Screen reader compatible, keyboard navigable
+```
+
+### **8. UI/UX Standards (TurboTax-Inspired)**
+```markdown
+## 🎭 UI/UX Standards
+- **Imagery**: Professional headshots, clean illustrations, avoid stock photos
+- **Trust Elements**: 
+  - Success statistics prominently displayed
+  - Expert credentials and certifications
+  - Money-back guarantees
+  - Customer testimonials with photos
+- **CTAs**: 
+  - Primary: "Start Your Negotiation" (TurboTax blue)
+  - Secondary: "Learn More" (outlined style)
+  - Accent: "Get Assessment" (green for positive actions)
+- **Feedback**: 
+  - Success states: Green with checkmark icons
+  - Error states: Red with clear, actionable messages
+  - Loading states: Professional spinners with descriptive text
+- **Forms**: 
+  - Clear labels, helpful placeholder text
+  - Inline validation with specific error messages
+  - Progress indicators for multi-step processes
+```
+
+### **9. Content Guidelines**
+```markdown
+## 📝 Content Guidelines
+- **Tone**: Professional, confident, helpful, and trustworthy (like TurboTax)
+- **Messaging**: 
+  - Focus on outcomes and results
+  - Use specific numbers and statistics
+  - Emphasize expertise and proven methods
+- **Social Proof**: 
+  - Real testimonials with names and photos
+  - Success stories with specific salary increases
+  - Expert credentials and certifications
+- **Value Props**: 
+  - "Get Your Biggest Salary Increase, Guaranteed"
+  - "Expert guidance from certified negotiation professionals"
+  - "Average increase of $50,000+"
+- **Legal**: Include disclaimers for financial advice, privacy policy, terms of service
+```
+
+### **10. Development Workflow**
+```markdown
+## 🔄 Development Workflow
+- **Version Control**: Git with feature branches, conventional commits
+- **Deployment**: Vercel with preview deployments for all branches
+- **Monitoring**: Error tracking with user feedback collection
+- **Security**: HTTPS only, secure form handling, data encryption
+- **Performance**: Core Web Vitals monitoring, image optimization
+- **Analytics**: Track conversion funnels, user engagement, form completions
+```
+
+### **11. TurboTax-Specific Patterns to Follow**
+```markdown
+## 🎯 TurboTax Design Patterns
+- **Color Psychology**: Blue for trust and professionalism, green for success
+- **Layout**: Clean, spacious layouts with clear visual hierarchy
+- **Typography**: Clear headings, readable body text, proper contrast ratios
+- **Forms**: Step-by-step guidance with progress indicators
+- **Trust Building**: Prominent guarantees, expert credentials, success metrics
+- **Conversion Optimization**: Clear CTAs, minimal friction, value-focused messaging
+- **Professional Imagery**: Real people, professional settings, authentic testimonials
+```
+
+### **12. Component Naming & Structure**
+```markdown
+## 📦 Component Organization
+- **Naming**: Use descriptive, professional names (ProfessionalButton, ExpertCard)
+- **Structure**: 
+  - `/components/ui/` - Reusable UI components
+  - `/components/forms/` - Form-specific components
+  - `/components/layout/` - Layout components
+  - `/components/animations/` - Animation components
+- **Props**: Always use TypeScript interfaces, provide default values
+- **Exports**: Use named exports with displayName for debugging
+- **Styling**: Use Chakra UI props, avoid custom CSS when possible
+```
+
+### **13. Animation Guidelines**
+```markdown
+## ✨ Animation Standards
+- **Purpose**: Enhance UX, not distract from content
+- **Timing**: 
+  - Hover effects: 0.2s ease-in-out
+  - Page transitions: 0.6-0.8s ease-out
+  - Micro-interactions: 0.15s spring animations
+- **Effects**: 
+  - Subtle scale transforms (1.01-1.05)
+  - Gentle fade and slide transitions
+  - Professional loading states
+- **Performance**: Use transform and opacity, avoid layout-triggering properties
+- **Accessibility**: Respect prefers-reduced-motion media query
+```
+
+### **14. Form & Input Standards**
+```markdown
+## 📋 Form Guidelines
+- **Validation**: Real-time validation with clear error messages
+- **Styling**: Professional input styling with focus states
+- **Accessibility**: Proper labels, ARIA attributes, keyboard navigation
+- **UX**: 
+  - Clear field labels and helpful placeholder text
+  - Progress indicators for multi-step forms
+  - Success confirmation after submission
+- **Error Handling**: Specific, actionable error messages
+- **Loading States**: Disable inputs during submission, show progress
+```
+
+### **15. Content & Messaging Rules**
+```markdown
+## 💬 Content Standards
+- **Headlines**: Benefit-focused, specific, and compelling
+- **Body Text**: Clear, scannable, and professional
+- **CTAs**: Action-oriented, benefit-focused language
+- **Trust Elements**: 
+  - "94% Success Rate"
+  - "10,000+ Professionals Helped"
+  - "Money-Back Guarantee"
+- **Social Proof**: Real testimonials with specific results
+- **Expert Positioning**: Emphasize credentials, experience, and proven results
+```
+
+---
+
+## 🎯 **Implementation Checklist**
+
+When building new features, ensure:
+- [ ] Follows TurboTax-inspired professional design patterns
+- [ ] Uses established color palette and typography
+- [ ] Implements proper responsive design
+- [ ] Includes appropriate animations and micro-interactions
+- [ ] Has proper TypeScript interfaces and error handling
+- [ ] Meets accessibility standards (WCAG 2.1 AA)
+- [ ] Optimized for performance and Core Web Vitals
+- [ ] Includes trust elements and social proof where appropriate
+- [ ] Uses consistent spacing and component patterns
+- [ ] Follows established naming conventions
+
+## 🔧 **Quick Reference**
+
+**Primary Colors**: `brand.primary` (#236CFF), `brand.secondary` (#00A651), `brand.accent` (#FF4444)
+**Typography**: `fontFamily="heading"` for headings, `fontFamily="body"` for text
+**Spacing**: Use Chakra's spacing scale (1, 2, 3, 4, 6, 8, 12, 16, 20, 24, 32)
+**Components**: Use `ProfessionalButton`, `ProfessionalInput`, `ProfessionalLoader`
+**Animations**: Use Framer Motion with professional timing and easing
+**Responsive**: Use Chakra's responsive props: `{ base: "value", md: "value", lg: "value" }`

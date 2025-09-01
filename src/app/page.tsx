@@ -1,103 +1,315 @@
-import Image from "next/image";
+'use client';
+
+import { 
+  VStack, 
+  Heading, 
+  Text, 
+  HStack, 
+  Box,
+  SimpleGrid,
+  Card,
+  CardBody,
+  Badge,
+  Icon,
+  Button
+} from '@chakra-ui/react';
+import { motion } from 'framer-motion';
+import { 
+  TrendingUp, 
+  Target, 
+  Shield, 
+  CheckCircle,
+  DollarSign,
+  Award,
+  Users,
+  Handshake
+} from 'lucide-react';
+import { MainLayout } from '@/components/layout/MainLayout';
+import { ProfessionalButton } from '@/components/ui/ProfessionalButton';
+import { ProfessionalInput } from '@/components/ui/ProfessionalInput';
+import { ProfessionalLoader } from '@/components/ui/ProfessionalLoader';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const MotionHeading = motion(Heading);
+  const MotionText = motion(Text);
+  const MotionCard = motion(Card);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  return (
+    <MainLayout>
+      {/* Hero Section */}
+      <VStack gap={16} py={20} align="center" textAlign="center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        >
+          <VStack gap={6} maxW="4xl">
+            <MotionHeading
+              as="h1"
+              size="3xl"
+              fontFamily="heading"
+              color="brand.neutral.700"
+              lineHeight="shorter"
+              fontWeight="700"
+            >
+              Get Your Biggest Salary Increase,{' '}
+              <Box as="span" color="brand.primary">
+                Guaranteed
+              </Box>
+            </MotionHeading>
+            
+            <MotionText
+              fontSize="xl"
+              color="brand.neutral.600"
+              maxW="3xl"
+              lineHeight="tall"
+              fontWeight="400"
+            >
+              Expert salary negotiation strategies that have helped professionals 
+              increase their income by an average of $50,000. Get personalized 
+              guidance from certified negotiation experts.
+            </MotionText>
+          </VStack>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <HStack gap={4} flexWrap="wrap" justify="center">
+            <ProfessionalButton 
+              variant="primary" 
+              size="lg" 
+              leftIcon={<TrendingUp />}
+              onClick={() => window.location.href = '/assessment'}
+            >
+              Get Free Assessment
+            </ProfessionalButton>
+            <ProfessionalButton variant="secondary" size="lg" leftIcon={<Target />}>
+              View Success Stories
+            </ProfessionalButton>
+          </HStack>
+        </motion.div>
+
+        {/* Trust Indicators */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <HStack gap={8} flexWrap="wrap" justify="center" color="brand.neutral.600" fontSize="sm">
+            <HStack>
+              <CheckCircle size={16} color="#00A651" />
+              <Text fontWeight="500">10,000+ Successful Negotiations</Text>
+            </HStack>
+            <HStack>
+              <Award size={16} color="#00A651" />
+              <Text fontWeight="500">94% Success Rate</Text>
+            </HStack>
+            <HStack>
+              <Shield size={16} color="#00A651" />
+              <Text fontWeight="500">Money-Back Guarantee</Text>
+            </HStack>
+          </HStack>
+        </motion.div>
+
+        {/* Quick Assessment Form */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
+        >
+          <Card
+            maxW="md"
+            bg="brand.neutral.50"
+            border="1px solid"
+            borderColor="brand.neutral.200"
+            borderRadius="12px"
+            boxShadow="lg"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <CardBody p={6}>
+              <VStack gap={4}>
+                <Text fontSize="lg" fontWeight="600" color="brand.neutral.700" textAlign="center">
+                  Quick Salary Assessment
+                </Text>
+                <VStack gap={3} width="100%">
+                  <ProfessionalInput
+                    placeholder="e.g. Software Engineer"
+                    label="Current Role"
+                  />
+                  <ProfessionalInput
+                    placeholder="e.g. $120,000"
+                    label="Current Salary"
+                  />
+                  <ProfessionalButton 
+                    variant="primary" 
+                    width="100%" 
+                    size="md"
+                    onClick={() => window.location.href = '/assessment'}
+                  >
+                    Get My Assessment
+                  </ProfessionalButton>
+                </VStack>
+                <Text fontSize="xs" color="brand.neutral.500" textAlign="center">
+                  Free assessment • No commitment required
+                </Text>
+              </VStack>
+            </CardBody>
+          </Card>
+        </motion.div>
+      </VStack>
+
+      {/* How It Works Section */}
+      <Box bg="brand.neutral.50" py={20} mt={20} borderRadius="12px">
+        <VStack gap={12}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+            <VStack gap={4} textAlign="center">
+              <Heading
+                as="h2"
+                size="2xl"
+                fontFamily="heading"
+                color="brand.neutral.700"
+                fontWeight="700"
+              >
+                How It Works
+              </Heading>
+              <Text
+                fontSize="lg"
+                color="brand.neutral.600"
+                maxW="2xl"
+              >
+                Three simple steps to maximize your salary potential
+              </Text>
+            </VStack>
+          </motion.div>
+
+          <SimpleGrid columns={{ base: 1, md: 3 }} gap={8} width="100%">
+            {[
+              {
+                icon: Users,
+                title: "Share Your Profile",
+                description: "Tell us about your current role, experience, and target compensation. Our experts analyze your profile against market data.",
+                step: "01"
+              },
+              {
+                icon: Target,
+                title: "Get Expert Strategy", 
+                description: "Receive personalized negotiation strategies, market insights, and timing recommendations based on your unique situation.",
+                step: "02"
+              },
+              {
+                icon: Handshake,
+                title: "Negotiate with Confidence",
+                description: "Follow your custom negotiation playbook with expert guidance and proven scripts that secure results.",
+                step: "03"
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+              >
+                <MotionCard
+                  height="100%"
+                  bg="white"
+                  border="1px solid"
+                  borderColor="brand.neutral.200"
+                  borderRadius="12px"
+                  boxShadow="md"
+                  _hover={{
+                    boxShadow: "xl",
+                    transform: "translateY(-4px)"
+                  }}
+                >
+                  <CardBody p={6}>
+                    <VStack gap={4} align="start">
+                      <HStack justify="space-between" width="100%">
+                        <Box
+                          p={3}
+                          borderRadius="full"
+                          bg="brand.primary"
+                          color="white"
+                        >
+                          <Icon as={feature.icon} boxSize={6} />
+                        </Box>
+                        <Badge
+                          colorScheme="blue"
+                          variant="subtle"
+                          fontSize="xs"
+                          px={2}
+                          py={1}
+                        >
+                          Step {feature.step}
+                        </Badge>
+                      </HStack>
+                      <VStack gap={2} align="start">
+                        <Heading
+                          as="h3"
+                          size="md"
+                          fontFamily="heading"
+                          color="brand.neutral.700"
+                          fontWeight="600"
+                        >
+                          {feature.title}
+                        </Heading>
+                        <Text color="brand.neutral.600" lineHeight="tall" fontSize="sm">
+                          {feature.description}
+                        </Text>
+                      </VStack>
+                    </VStack>
+                  </CardBody>
+                </MotionCard>
+              </motion.div>
+            ))}
+          </SimpleGrid>
+        </VStack>
+      </Box>
+
+      {/* Stats Section */}
+      <VStack gap={8} py={16}>
+        <Heading
+          as="h2"
+          size="xl"
+          fontFamily="heading"
+          color="brand.neutral.700"
+          textAlign="center"
+          fontWeight="600"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          Trusted by Professionals
+        </Heading>
+        
+        <SimpleGrid columns={{ base: 2, md: 4 }} gap={8}>
+          {[
+            { icon: TrendingUp, stat: "94%", label: "Success Rate" },
+            { icon: DollarSign, stat: "$50K+", label: "Average Increase" },
+            { icon: Users, stat: "10K+", label: "Professionals Helped" },
+            { icon: Award, stat: "4.9/5", label: "Customer Rating" }
+          ].map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+            >
+              <VStack gap={2} textAlign="center">
+                <Icon as={item.icon} boxSize={8} color="brand.primary" />
+                <Text fontSize="2xl" fontWeight="700" color="brand.neutral.700">
+                  {item.stat}
+                </Text>
+                <Text fontSize="sm" color="brand.neutral.600">
+                  {item.label}
+                </Text>
+              </VStack>
+            </motion.div>
+          ))}
+        </SimpleGrid>
+      </VStack>
+    </MainLayout>
   );
 }
