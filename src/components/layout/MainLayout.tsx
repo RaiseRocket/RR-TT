@@ -3,6 +3,7 @@
 import { Box, Container } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { Navigation } from './Navigation';
+import { Footer } from './Footer';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -27,6 +28,8 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
             {children}
           </motion.main>
         </Container>
+        
+        <Footer />
       </motion.div>
     </Box>
   );

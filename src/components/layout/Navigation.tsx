@@ -22,12 +22,7 @@ import { motion } from 'framer-motion';
 import { Menu, TrendingUp } from 'lucide-react';
 import { ProfessionalButton } from '@/components/ui/ProfessionalButton';
 
-const navItems = [
-  { name: 'How It Works', href: '#how-it-works' },
-  { name: 'Pricing', href: '#pricing' },
-  { name: 'Success Stories', href: '#testimonials' },
-  { name: 'Resources', href: '#resources' }
-];
+const navItems = [];
 
 export const Navigation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -109,13 +104,6 @@ export const Navigation = () => {
               >
                 Sign In
               </ProfessionalButton>
-              <ProfessionalButton
-                variant="primary"
-                size="sm"
-                display={{ base: 'none', md: 'flex' }}
-              >
-                Get Started
-              </ProfessionalButton>
               
               <IconButton
                 aria-label="Open menu"
@@ -165,9 +153,6 @@ export const Navigation = () => {
               <VStack gap={3} pt={4}>
                 <ProfessionalButton variant="secondary" width="full">
                   Sign In
-                </ProfessionalButton>
-                <ProfessionalButton variant="primary" width="full">
-                  Get Started
                 </ProfessionalButton>
               </VStack>
             </VStack>

@@ -7,11 +7,8 @@ import {
   HStack, 
   Box,
   SimpleGrid,
-  Card,
-  CardBody,
   Badge,
-  Icon,
-  Button
+  Icon
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { 
@@ -26,13 +23,10 @@ import {
 } from 'lucide-react';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { ProfessionalButton } from '@/components/ui/ProfessionalButton';
-import { ProfessionalInput } from '@/components/ui/ProfessionalInput';
-import { ProfessionalLoader } from '@/components/ui/ProfessionalLoader';
 
 export default function Home() {
   const MotionHeading = motion(Heading);
   const MotionText = motion(Text);
-  const MotionCard = motion(Card);
 
   return (
     <MainLayout>
@@ -86,9 +80,6 @@ export default function Home() {
             >
               Get Free Assessment
             </ProfessionalButton>
-            <ProfessionalButton variant="secondary" size="lg" leftIcon={<Target />}>
-              View Success Stories
-            </ProfessionalButton>
           </HStack>
         </motion.div>
 
@@ -114,50 +105,7 @@ export default function Home() {
           </HStack>
         </motion.div>
 
-        {/* Quick Assessment Form */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-        >
-          <Card
-            maxW="md"
-            bg="brand.neutral.50"
-            border="1px solid"
-            borderColor="brand.neutral.200"
-            borderRadius="12px"
-            boxShadow="lg"
-          >
-            <CardBody p={6}>
-              <VStack gap={4}>
-                <Text fontSize="lg" fontWeight="600" color="brand.neutral.700" textAlign="center">
-                  Quick Salary Assessment
-                </Text>
-                <VStack gap={3} width="100%">
-                  <ProfessionalInput
-                    placeholder="e.g. Software Engineer"
-                    label="Current Role"
-                  />
-                  <ProfessionalInput
-                    placeholder="e.g. $120,000"
-                    label="Current Salary"
-                  />
-                  <ProfessionalButton 
-                    variant="primary" 
-                    width="100%" 
-                    size="md"
-                    onClick={() => window.location.href = '/assessment'}
-                  >
-                    Get My Assessment
-                  </ProfessionalButton>
-                </VStack>
-                <Text fontSize="xs" color="brand.neutral.500" textAlign="center">
-                  Free assessment • No commitment required
-                </Text>
-              </VStack>
-            </CardBody>
-          </Card>
-        </motion.div>
+
       </VStack>
 
       {/* How It Works Section */}
@@ -215,7 +163,7 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
               >
-                <MotionCard
+                <Box
                   height="100%"
                   bg="white"
                   border="1px solid"
@@ -226,8 +174,8 @@ export default function Home() {
                     boxShadow: "xl",
                     transform: "translateY(-4px)"
                   }}
+                  p={6}
                 >
-                  <CardBody p={6}>
                     <VStack gap={4} align="start">
                       <HStack justify="space-between" width="100%">
                         <Box
@@ -263,8 +211,7 @@ export default function Home() {
                         </Text>
                       </VStack>
                     </VStack>
-                  </CardBody>
-                </MotionCard>
+                </Box>
               </motion.div>
             ))}
           </SimpleGrid>
