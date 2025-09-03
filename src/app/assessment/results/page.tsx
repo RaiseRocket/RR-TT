@@ -44,7 +44,9 @@ import {
 } from 'lucide-react';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { ProfessionalButton } from '@/components/ui/ProfessionalButton';
+import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -69,7 +71,9 @@ const assessmentData = {
 };
 
 export default function AssessmentResultsPage() {
-
+  const { user } = useAuth();
+  const router = useRouter();
+  
   const [analysisData, setAnalysisData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -86,7 +90,13 @@ export default function AssessmentResultsPage() {
   }, []);
 
   const handleGetFullStrategy = () => {
-    window.location.href = '/auth/signup';
+    if (user) {
+      // User is authenticated, redirect to onboarding or dashboard
+      router.push('/onboarding/profile');
+    } else {
+      // User is not authenticated, redirect to signup
+      router.push('/auth/signup');
+    }
   };
 
   // Format the OpenAI response for display

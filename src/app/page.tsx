@@ -23,10 +23,22 @@ import {
 } from 'lucide-react';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { ProfessionalButton } from '@/components/ui/ProfessionalButton';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const { user } = useAuth();
+  const router = useRouter();
   const MotionHeading = motion(Heading);
   const MotionText = motion(Text);
+
+  const handleGetStarted = () => {
+    if (user) {
+      router.push('/dashboard');
+    } else {
+      router.push('/assessment');
+    }
+  };
 
   return (
     <MainLayout>
@@ -76,10 +88,19 @@ export default function Home() {
               variant="primary" 
               size="lg" 
               leftIcon={<TrendingUp />}
-              onClick={() => window.location.href = '/assessment'}
+              onClick={handleGetStarted}
             >
-              Get Free Assessment
+              {user ? 'Go to Dashboard' : 'Get Free Assessment'}
             </ProfessionalButton>
+            {!user && (
+              <ProfessionalButton 
+                variant="secondary" 
+                size="lg" 
+                onClick={() => router.push('/auth/signup')}
+              >
+                Create Account
+              </ProfessionalButton>
+            )}
           </HStack>
         </motion.div>
 

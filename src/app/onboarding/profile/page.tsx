@@ -25,7 +25,11 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { ProgressIndicator } from '@/components/layout/ProgressIndicator';
 import { ProfessionalButton } from '@/components/ui/ProfessionalButton';
 import { ProfessionalInput } from '@/components/ui/ProfessionalInput';
-import { useState } from 'react';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabase';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const onboardingSteps = [
   { id: 'profile', title: 'Professional Profile', description: 'Share your background' },
@@ -33,6 +37,9 @@ const onboardingSteps = [
 ];
 
 export default function OnboardingProfilePage() {
+  const { user } = useAuth();
+  const router = useRouter();
+  
   const [formData, setFormData] = useState({
     jobDescription: '',
     company: '',
@@ -43,6 +50,38 @@ export default function OnboardingProfilePage() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Load pending assessment data if it exists
+  useEffect(() => {
+    if (user) {
+      const pendingAssessmentData = localStorage.getItem('pendingAssessmentData');
+      if (pendingAssessmentData) {
+        // Save assessment data to user's profile
+        saveAssessmentData(JSON.parse(pendingAssessmentData));
+        localStorage.removeItem('pendingAssessmentData');
+      }
+    }
+  }, [user]);
+
+  const saveAssessmentData = async (assessmentData: any) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('assessments')
+        .insert({
+          user_id: user.id,
+          assessment_data: assessmentData,
+        });
+
+      if (error) {
+        console.error('Error saving assessment data:', error);
+      }
+    } catch (error) {
+      console.error('Error saving assessment data:', error);
+    }
+  };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -55,17 +94,67 @@ export default function OnboardingProfilePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrors({});
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Redirect to next step
-    window.location.href = '/onboarding/strategy';
+    try {
+      if (!user) {
+        setErrors({ general: 'You must be logged in to continue' });
+        return;
+      }
+
+      // Update user profile with onboarding data
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({
+          full_name: user.user_metadata?.full_name,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', user.id);
+
+      if (profileError) {
+        console.error('Error updating profile:', profileError);
+        setErrors({ general: 'Failed to save profile. Please try again.' });
+        return;
+      }
+
+      // Save onboarding data to assessments table
+      const { error: assessmentError } = await supabase
+        .from('assessments')
+        .insert({
+          user_id: user.id,
+          assessment_data: {
+            onboarding: {
+              jobDescription: formData.jobDescription,
+              company: formData.company,
+              linkedinUrl: formData.linkedinUrl,
+              additionalInfo: formData.additionalInfo,
+              resume: formData.resume?.name,
+              coverLetter: formData.coverLetter?.name,
+              completedAt: new Date().toISOString(),
+            }
+          },
+        });
+
+      if (assessmentError) {
+        console.error('Error saving onboarding data:', assessmentError);
+        setErrors({ general: 'Failed to save your information. Please try again.' });
+        return;
+      }
+
+      // Redirect to next step
+      router.push('/onboarding/strategy');
+    } catch (error) {
+      console.error('Error during onboarding:', error);
+      setErrors({ general: 'An unexpected error occurred. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <MainLayout>
-      <VStack gap={12} py={12} align="center">
+    <ProtectedRoute>
+      <MainLayout>
+        <VStack gap={12} py={12} align="center">
         {/* Progress Indicator */}
         <ProgressIndicator
           steps={onboardingSteps}
@@ -125,6 +214,20 @@ export default function OnboardingProfilePage() {
             <CardBody p={8}>
               <form onSubmit={handleSubmit}>
                 <VStack gap={8}>
+                  {errors.general && (
+                    <Box
+                      p={4}
+                      bg="brand.accent.50"
+                      border="1px solid"
+                      borderColor="brand.accent.200"
+                      borderRadius="8px"
+                      width="100%"
+                    >
+                      <Text fontSize="sm" color="brand.accent" fontWeight="500">
+                        {errors.general}
+                      </Text>
+                    </Box>
+                  )}
                   {/* Basic Information */}
                   <VStack gap={6} width="100%" align="start">
                     <Heading
@@ -389,7 +492,8 @@ export default function OnboardingProfilePage() {
             </CardBody>
           </Card>
         </motion.div>
-      </VStack>
-    </MainLayout>
+        </VStack>
+      </MainLayout>
+    </ProtectedRoute>
   );
 }

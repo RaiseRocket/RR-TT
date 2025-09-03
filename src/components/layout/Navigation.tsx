@@ -19,13 +19,22 @@ import {
   Badge
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { Menu, TrendingUp } from 'lucide-react';
+import { Menu, TrendingUp, User, LogOut } from 'lucide-react';
 import { ProfessionalButton } from '@/components/ui/ProfessionalButton';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const navItems = [];
 
 export const Navigation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user, signOut } = useAuth();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/');
+  };
 
   return (
     <Box
@@ -97,13 +106,44 @@ export const Navigation = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <HStack gap={4}>
-              <ProfessionalButton
-                variant="secondary"
-                size="sm"
-                display={{ base: 'none', md: 'flex' }}
-              >
-                Sign In
-              </ProfessionalButton>
+              {user ? (
+                <>
+                  <HStack gap={2} display={{ base: 'none', md: 'flex' }}>
+                    <User size={16} color="#236CFF" />
+                    <Text fontSize="sm" color="brand.neutral.700" fontWeight="500">
+                      {user.user_metadata?.full_name || user.email}
+                    </Text>
+                  </HStack>
+                  <ProfessionalButton
+                    variant="secondary"
+                    size="sm"
+                    display={{ base: 'none', md: 'flex' }}
+                    onClick={handleSignOut}
+                    leftIcon={<LogOut size={16} />}
+                  >
+                    Sign Out
+                  </ProfessionalButton>
+                </>
+              ) : (
+                <>
+                  <ProfessionalButton
+                    variant="secondary"
+                    size="sm"
+                    display={{ base: 'none', md: 'flex' }}
+                    onClick={() => router.push('/auth/login')}
+                  >
+                    Sign In
+                  </ProfessionalButton>
+                  <ProfessionalButton
+                    variant="primary"
+                    size="sm"
+                    display={{ base: 'none', md: 'flex' }}
+                    onClick={() => router.push('/auth/signup')}
+                  >
+                    Get Started
+                  </ProfessionalButton>
+                </>
+              )}
               
               <IconButton
                 aria-label="Open menu"
@@ -151,9 +191,47 @@ export const Navigation = () => {
                 </motion.div>
               ))}
               <VStack gap={3} pt={4}>
-                <ProfessionalButton variant="secondary" width="full">
-                  Sign In
-                </ProfessionalButton>
+                {user ? (
+                  <>
+                    <HStack gap={2} width="full" p={3} bg="brand.neutral.50" borderRadius="8px">
+                      <User size={16} color="#236CFF" />
+                      <Text fontSize="sm" color="brand.neutral.700" fontWeight="500">
+                        {user.user_metadata?.full_name || user.email}
+                      </Text>
+                    </HStack>
+                    <ProfessionalButton 
+                      variant="secondary" 
+                      width="full"
+                      onClick={handleSignOut}
+                      leftIcon={<LogOut size={16} />}
+                    >
+                      Sign Out
+                    </ProfessionalButton>
+                  </>
+                ) : (
+                  <>
+                    <ProfessionalButton 
+                      variant="secondary" 
+                      width="full"
+                      onClick={() => {
+                        router.push('/auth/login');
+                        onClose();
+                      }}
+                    >
+                      Sign In
+                    </ProfessionalButton>
+                    <ProfessionalButton 
+                      variant="primary" 
+                      width="full"
+                      onClick={() => {
+                        router.push('/auth/signup');
+                        onClose();
+                      }}
+                    >
+                      Get Started
+                    </ProfessionalButton>
+                  </>
+                )}
               </VStack>
             </VStack>
           </DrawerBody>

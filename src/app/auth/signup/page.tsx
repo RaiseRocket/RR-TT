@@ -27,19 +27,26 @@ import {
 import { MainLayout } from '@/components/layout/MainLayout';
 import { ProfessionalButton } from '@/components/ui/ProfessionalButton';
 import { ProfessionalInput } from '@/components/ui/ProfessionalInput';
+import { useAuth } from '@/contexts/AuthContext';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
+  const { signUp } = useAuth();
+  const router = useRouter();
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
+    fullName: '',
     agreeToTerms: false,
     agreeToMarketing: false
   });
 
   const [isCreating, setIsCreating] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [success, setSuccess] = useState(false);
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -51,6 +58,10 @@ export default function SignupPage() {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full name is required';
+    }
 
     if (!formData.email) {
       newErrors.email = 'Email is required';
@@ -84,12 +95,32 @@ export default function SignupPage() {
     }
 
     setIsCreating(true);
+    setErrors({});
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Redirect to onboarding
-    window.location.href = '/onboarding/profile';
+    try {
+      const { error } = await signUp(formData.email, formData.password, formData.fullName);
+      
+      if (error) {
+        setErrors({ general: error.message });
+      } else {
+        setSuccess(true);
+        // Store assessment data if it exists
+        const assessmentData = localStorage.getItem('assessmentData');
+        if (assessmentData) {
+          // Assessment data will be saved to user's profile after email confirmation
+          localStorage.setItem('pendingAssessmentData', assessmentData);
+        }
+        
+        // Redirect to success page or onboarding
+        setTimeout(() => {
+          router.push('/onboarding/profile');
+        }, 2000);
+      }
+    } catch (error) {
+      setErrors({ general: 'An unexpected error occurred. Please try again.' });
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   return (
@@ -216,7 +247,50 @@ export default function SignupPage() {
             <CardBody p={6}>
               <form onSubmit={handleSubmit}>
                 <VStack gap={4}>
+                  {success && (
+                    <Box
+                      p={4}
+                      bg="brand.secondary.50"
+                      border="1px solid"
+                      borderColor="brand.secondary.200"
+                      borderRadius="8px"
+                      width="100%"
+                    >
+                      <HStack gap={2}>
+                        <CheckCircle size={16} color="#00A651" />
+                        <Text fontSize="sm" color="brand.secondary" fontWeight="500">
+                          Account created successfully! Please check your email to confirm your account.
+                        </Text>
+                      </HStack>
+                    </Box>
+                  )}
+
+                  {errors.general && (
+                    <Box
+                      p={4}
+                      bg="brand.accent.50"
+                      border="1px solid"
+                      borderColor="brand.accent.200"
+                      borderRadius="8px"
+                      width="100%"
+                    >
+                      <Text fontSize="sm" color="brand.accent" fontWeight="500">
+                        {errors.general}
+                      </Text>
+                    </Box>
+                  )}
+
                   <VStack gap={3} width="100%">
+                    <ProfessionalInput
+                      label="Full Name"
+                      type="text"
+                      placeholder="John Doe"
+                      value={formData.fullName}
+                      onChange={(e) => handleInputChange('fullName', e.target.value)}
+                      error={errors.fullName}
+                      required
+                    />
+                    
                     <ProfessionalInput
                       label="Email Address"
                       type="email"
