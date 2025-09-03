@@ -51,3 +51,29 @@ export interface ExpertRecommendation {
   tactics: string[];
   createdAt: Date;
 }
+
+// New interfaces for offer analysis
+export interface ExtractedOfferInfo {
+  companyName?: string;
+  jobTitle?: string;
+  baseSalary?: string;
+  confidence: 'high' | 'medium' | 'low';
+}
+
+export interface OfferAnalysisRequest {
+  offerInput: string; // Single input field - can be text or file content
+  inputType: 'text' | 'file';
+  fileName?: string; // Optional filename if uploaded
+}
+
+export interface OfferAnalysisResponse {
+  extractedInfo: ExtractedOfferInfo;
+  offerSummary: string;
+  benchmarkAssessment: string;
+  strengths: string;
+  negotiationOpportunities: string;
+  suggestedStrategy: string;
+  risksConsiderations: string;
+  rawResponse?: string;
+  debugPayload?: any;
+}

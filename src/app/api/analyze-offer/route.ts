@@ -1,14 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { freeAssessmentService, OfferAnalysisRequest } from '@/services/openai';
+import { freeAssessmentService } from '@/services/openai';
+import { OfferAnalysisRequest } from '@/types';
 
 export async function POST(request: NextRequest) {
   try {
     const body: OfferAnalysisRequest = await request.json();
 
-    // Validate required fields
-    if (!body.jobTitle || !body.company || !body.offerAmount) {
+    // Validate required fields for new format
+    if (!body.offerInput || !body.inputType) {
       return NextResponse.json(
-        { error: 'Missing required fields: jobTitle, company, offerAmount' },
+        { error: 'Missing required fields: offerInput, inputType' },
+        { status: 400 }
+      );
+    }
+
+    // Validate input type
+    if (!['text', 'file'].includes(body.inputType)) {
+      return NextResponse.json(
+        { error: 'Invalid inputType. Must be "text" or "file"' },
         { status: 400 }
       );
     }

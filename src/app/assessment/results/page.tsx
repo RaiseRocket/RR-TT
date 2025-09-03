@@ -69,7 +69,7 @@ const assessmentData = {
 };
 
 export default function AssessmentResultsPage() {
-  const [isCreatingAccount, setIsCreatingAccount] = useState(false);
+
   const [analysisData, setAnalysisData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -87,14 +87,6 @@ export default function AssessmentResultsPage() {
 
   const handleGetFullStrategy = () => {
     window.location.href = '/auth/signup';
-  };
-
-  const handleCreateAccount = () => {
-    setIsCreatingAccount(true);
-    // Simulate account creation
-    setTimeout(() => {
-      window.location.href = '/auth/signup';
-    }, 1000);
   };
 
   // Format the OpenAI response for display
@@ -480,39 +472,21 @@ ${analysis.risksConsiderations}`;
                     </Badge>
                   </VStack>
 
-                  {/* CTA Buttons */}
-                  <VStack gap={3}>
-                    <ProfessionalButton
-                      variant="secondary"
-                      size="lg"
-                      bg="white"
-                      color="brand.primary"
-                      width="100%"
-                      _hover={{
-                        bg: 'brand.neutral.50',
-                        transform: 'translateY(-2px)'
-                      }}
-                      onClick={handleGetFullStrategy}
-                    >
-                      Get Full Strategy - $97
-                    </ProfessionalButton>
-                    <ProfessionalButton
-                      variant="accent"
-                      size="lg"
-                      bg="brand.secondary"
-                      color="white"
-                      width="100%"
-                      _hover={{
-                        bg: '#008A42',
-                        transform: 'translateY(-2px)'
-                      }}
-                      onClick={handleCreateAccount}
-                      isLoading={isCreatingAccount}
-                      loadingText="Creating Account..."
-                    >
-                      Create Free Account
-                    </ProfessionalButton>
-                  </VStack>
+                  {/* CTA Button */}
+                  <ProfessionalButton
+                    variant="secondary"
+                    size="lg"
+                    bg="white"
+                    color="brand.primary"
+                    width="100%"
+                    _hover={{
+                      bg: 'brand.neutral.50',
+                      transform: 'translateY(-2px)'
+                    }}
+                    onClick={handleGetFullStrategy}
+                  >
+                    Get Full Strategy - $97
+                  </ProfessionalButton>
 
                   <Text fontSize="xs" opacity={0.8} textAlign="center">
                     Money-back guarantee • No long-term commitment • Instant access
