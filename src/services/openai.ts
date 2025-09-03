@@ -89,10 +89,22 @@ export class OpenAIService {
       // Load the prompt template
       const basePrompt = this.loadOfferAnalysisPrompt();
       
-      // Split the prompt into system instruction and user task
-      const systemInstruction = basePrompt.split('## User Input:')[0];
-      const userTask = basePrompt.split('## User Input:')[1].split('## Task:')[0];
-      const outputFormat = basePrompt.split('## Output Format:')[1];
+      // For the new simplified prompt format, split differently
+      let systemInstruction: string;
+      let userTask: string;
+      let outputFormat: string;
+
+      if (basePrompt.includes('## User Input:')) {
+        // Legacy format
+        systemInstruction = basePrompt.split('## User Input:')[0];
+        userTask = basePrompt.split('## User Input:')[1].split('## Task:')[0];
+        outputFormat = basePrompt.split('## Output Format:')[1];
+      } else {
+        // New simplified format
+        systemInstruction = basePrompt.split('## Task:')[0];
+        userTask = basePrompt.split('## Task:')[1].split('## Required Output Format:')[0];
+        outputFormat = basePrompt.split('## Required Output Format:')[1];
+      }
 
       // Replace variables in the user task
       const userPrompt = this.replacePromptVariables(userTask, data);
